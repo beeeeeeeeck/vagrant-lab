@@ -1,0 +1,22 @@
+# set up base box
+vagrant box add develop box\trusty-server-cloudimg-amd64-vagrant-disk1.box
+
+# init with creating vagrantfile
+vagrant init
+
+# start up vm
+vagrant up
+
+
+
+
+vagrant halt - shut down vm
+vagrant suspend - suspend vm and keep changes/files as well
+vagrant resume - resume vm
+vagrant destroy - remove everything except vagrantfile
+
+vagrant status
+# Current machine states:
+# default                   running (virtualbox)
+vagrant destroy default
+
