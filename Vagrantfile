@@ -69,6 +69,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     sudo chown vagrant /etc/apt/sources.list
     sudo chgrp vagrant /etc/apt/sources.list
+    sudo cp /etc/apt/sources.list /etc/apt/sources.list_bak
   SHELL
 
   config.vm.provision "file", source: "sources.list", destination: "/etc/apt/sources.list"
