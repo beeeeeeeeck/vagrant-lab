@@ -5,6 +5,8 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
+ENV["LANGUAGE"] = "en_US.UTF-8"
+ENV["LANG"] = "en_US.UTF-8"
 ENV["LC_ALL"] = "en_US.UTF-8"
 
 Vagrant.configure(2) do |config|
@@ -83,11 +85,8 @@ Vagrant.configure(2) do |config|
 	config.vm.provision "file", source: "node-v5.10.1-linux-x64.tar.xz", destination: "/home/vagrant/node-v5.10.1-linux-x64.tar.xz"
 
 	config.vm.provision "shell", inline: <<-SHELL
-		export LANGUAGE=en_US.UTF-8
-		export LANG=en_US.UTF-8
-		export LC_ALL=en_US.UTF-8
-		locale-gen en_US.UTF-8
-		dpkg-reconfigure locales
+		sudo locale-gen en_US.UTF-8
+		sudo dpkg-reconfigure locales
 		sudo apt-get update
 		sudo apt-get install -y git xz-utils wget memcached redis-server curl make gcc build-essential python2.7
 	SHELL
@@ -105,11 +104,11 @@ Vagrant.configure(2) do |config|
 		sudo chmod 755 /usr/local/node/* -R
 		sudo ln -s /usr/local/node/bin/node /usr/bin/node
 		sudo ln -s /usr/local/node/bin/npm /usr/bin/npm
-		sudo memcached -d -u root -P /home/vagrant/pid/memcached.pid
+		memcached -d -u vagrant -P /home/vagrant/pid/memcached.pid
 		sudo cp /etc/redis/redis.conf /home/vagrant/conf
-		sudo sed -i 's/\/var\/run\/redis\/redis-server.pid/\/home\/vagrant\/pid\/redis-server.pid/g' /home/vagrant/conf/redis.conf
-		sudo sed -i 's/\/var\/log\/redis\/redis-server.log/\/home\/vagrant\/log\/redis-server.log/g' /home/vagrant/conf/redis.conf
-		sudo redis-server /home/vagrant/conf/redis.conf
+		sudo sed -i s#\/var\/run\/redis\/redis-server.pid#\/home\/vagrant\/pid\/redis-server.pid#g /home/vagrant/conf/redis.conf
+		sudo sed -i s#\/var\/log\/redis\/redis-server.log#\/home\/vagrant\/log\/redis-server.log#g /home/vagrant/conf/redis.conf
+		redis-server /home/vagrant/conf/redis.conf
 		sudo npm install coffee-script -g
 		sudo ln -s /usr/local/node/lib/node_modules/coffee-script/bin/coffee /usr/bin/coffee
 		sudo ln -s /usr/local/node/lib/node_modules/coffee-script/bin/cake /usr/bin/cake
