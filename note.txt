@@ -23,4 +23,12 @@ vagrant destroy default
 
 https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box
 
+https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins
+
+https://cygwin.com/install.html
+http://mirrors.163.com/cygwin/
+rsync/openssh
+
+
+
 
