@@ -28,7 +28,7 @@ https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins
 https://cygwin.com/install.html
 http://mirrors.163.com/cygwin/
 rsync/openssh
-
+SMB
 
 
 
