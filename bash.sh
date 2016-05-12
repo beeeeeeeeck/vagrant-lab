@@ -44,10 +44,10 @@ git config --global color.ui true
 git clone https://xxx:xxx@github.com/xxx/xxx.git # FIXME
 
 # install node packages and startup application
-npm config set registry http://registry.cnpmjs.org
+npm config set registry https://registry.npm.taobao.org
 # install coffee-script
 npm install coffee-script -g
 sudo ln -s /usr/local/node/lib/node_modules/coffee-script/bin/coffee /usr/bin/coffee
 sudo ln -s /usr/local/node/lib/node_modules/coffee-script/bin/cake /usr/bin/cake
 npm config set python python2.7
-# npm install
+# npm --registry=https://registry.npm.taobao.org install
