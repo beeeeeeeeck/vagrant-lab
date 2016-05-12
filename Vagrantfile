@@ -5,8 +5,6 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
-ENV["LANGUAGE"] = "en_US.UTF-8"
-ENV["LANG"] = "en_US.UTF-8"
 ENV["LC_ALL"] = "en_US.UTF-8"
 
 Vagrant.configure(2) do |config|
@@ -76,6 +74,12 @@ Vagrant.configure(2) do |config|
 	end
 
 	config.vm.provision "shell", inline: <<-SHELL
+		sudo echo "export LANGUAGE=en_US.UTF-8" >> /etc/profile
+		sudo echo "export LANG=en_US.UTF-8" >> /etc/profile
+		sudo echo "export LC_ALL=en_US.UTF-8" >> /etc/profile
+	SHELL
+
+	config.vm.provision "shell", inline: <<-SHELL
 		sudo chown vagrant /etc/apt/sources.list
 		sudo chgrp vagrant /etc/apt/sources.list
 		sudo cp /etc/apt/sources.list /etc/apt/sources.list_bak
@@ -96,6 +100,9 @@ Vagrant.configure(2) do |config|
 		sudo mkdir pid
 		sudo mkdir log
 		sudo mkdir bash
+		sudo chown vagrant *
+		sudo chgrp vagrant *
+
 		# sudo wget --tries=100 --retry-connrefused https://nodejs.org/dist/v5.10.1/node-v5.10.1-linux-x64.tar.xz
 		sudo xz -d node-v5.10.1-linux-x64.tar.xz
 		sudo tar -xvf node-v5.10.1-linux-x64.tar
@@ -104,15 +111,20 @@ Vagrant.configure(2) do |config|
 		sudo chmod 755 /usr/local/node/* -R
 		sudo ln -s /usr/local/node/bin/node /usr/bin/node
 		sudo ln -s /usr/local/node/bin/npm /usr/bin/npm
-		memcached -d -u vagrant -P /home/vagrant/pid/memcached.pid
-		sudo cp /etc/redis/redis.conf /home/vagrant/conf
-		sudo sed -i s#\/var\/run\/redis\/redis-server.pid#\/home\/vagrant\/pid\/redis-server.pid#g /home/vagrant/conf/redis.conf
-		sudo sed -i s#\/var\/log\/redis\/redis-server.log#\/home\/vagrant\/log\/redis-server.log#g /home/vagrant/conf/redis.conf
-		redis-server /home/vagrant/conf/redis.conf
 		sudo npm install coffee-script -g
 		sudo ln -s /usr/local/node/lib/node_modules/coffee-script/bin/coffee /usr/bin/coffee
 		sudo ln -s /usr/local/node/lib/node_modules/coffee-script/bin/cake /usr/bin/cake
+
+		sudo cp /etc/redis/redis.conf /home/vagrant/conf
+		sudo sed -i s#\/var\/run\/redis\/redis-server.pid#\/home\/vagrant\/pid\/redis-server.pid#g /home/vagrant/conf/redis.conf
+		sudo sed -i s#\/var\/log\/redis\/redis-server.log#\/home\/vagrant\/log\/redis-server.log#g /home/vagrant/conf/redis.conf
+
+		sudo pkill -f memcached
+		memcached -d -u vagrant -P /home/vagrant/pid/memcached.pid
+		sudo pkill -f redis-server
+		redis-server /home/vagrant/conf/redis.conf
 	SHELL
+
 	# config.push.define "local-exec" do |push|
 	#	 push.script = "bash.sh"
 	# end
