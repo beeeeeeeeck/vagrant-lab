@@ -32,5 +32,7 @@ SMB
 
 http://www.jeffgeerling.com/blog/2016/developing-virtualbox-and-vagrant-on-windows
 
+http://perrymitchell.net/article/npm-symlinks-through-vagrant-windows/
+
 
 
