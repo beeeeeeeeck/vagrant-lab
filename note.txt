@@ -30,5 +30,7 @@ http://mirrors.163.com/cygwin/
 rsync/openssh
 SMB
 
+http://www.jeffgeerling.com/blog/2016/developing-virtualbox-and-vagrant-on-windows
+
 
 
