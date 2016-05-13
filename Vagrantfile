@@ -40,7 +40,11 @@ Vagrant.configure(2) do |config|
 	# the path on the host to the actual folder. The second argument is
 	# the path on the guest to mount the folder. And the optional third
 	# argument is a set of non-required options.
-	config.vm.synced_folder "../workspace", "/vagrant/workspace"
+	config.vm.synced_folder ".", "/vagrant", disabled: true
+	config.vm.synced_folder "../workspace", "/home/vagrant/workspace", id: "vagrant-workspace",
+		owner: "vagrant",
+		group: "vagrant",
+		mount_options: ["dmode=775,fmode=664"]
 
 	# Provider-specific configuration so you can fine-tune various
 	# backing providers for Vagrant. These expose provider-specific options.
@@ -48,11 +52,12 @@ Vagrant.configure(2) do |config|
 	#
 	config.vm.provider "virtualbox" do |vb|
 		vb.name = "dev"
+		vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant", "1"]
 		 # Display the VirtualBox GUI when booting the machine
 		#  vb.gui = true
 
 		 # Customize the amount of memory on the VM:
-		#  vb.memory = "1024"
+		vb.memory = "1024"
 	end
 	#
 	# View the documentation for the provider you are using for more
@@ -118,10 +123,13 @@ Vagrant.configure(2) do |config|
 		sudo cp /etc/redis/redis.conf /home/vagrant/conf
 		sudo sed -i s#\/var\/run\/redis\/redis-server.pid#\/home\/vagrant\/pid\/redis-server.pid#g /home/vagrant/conf/redis.conf
 		sudo sed -i s#\/var\/log\/redis\/redis-server.log#\/home\/vagrant\/log\/redis-server.log#g /home/vagrant/conf/redis.conf
+		sudo chown vagrant /home/vagrant/conf/redis.conf
+		sudo chgrp vagrant /home/vagrant/conf/redis.conf
 
 		sudo pkill -f memcached
-		memcached -d -u vagrant -P /home/vagrant/pid/memcached.pid
+		# memcached -d -u vagrant -P /home/vagrant/pid/memcached.pid
 		sudo pkill -f redis-server
-		redis-server /home/vagrant/conf/redis.conf
+		# redis-server /home/vagrant/conf/redis.conf
 	SHELL
+
 end
