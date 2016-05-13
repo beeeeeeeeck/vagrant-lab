@@ -124,8 +124,4 @@ Vagrant.configure(2) do |config|
 		sudo pkill -f redis-server
 		redis-server /home/vagrant/conf/redis.conf
 	SHELL
-
-	# config.push.define "local-exec" do |push|
-	#	 push.script = "bash.sh"
-	# end
 end
