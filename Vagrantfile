@@ -127,9 +127,9 @@ Vagrant.configure(2) do |config|
 		sudo chgrp vagrant /home/vagrant/conf/redis.conf
 
 		sudo pkill -f memcached
-		# memcached -d -u vagrant -P /home/vagrant/pid/memcached.pid
+		# sudo memcached -d -u vagrant -P /home/vagrant/pid/memcached.pid
 		sudo pkill -f redis-server
-		# redis-server /home/vagrant/conf/redis.conf
+		# sudo redis-server /home/vagrant/conf/redis.conf
 	SHELL
 
 end
