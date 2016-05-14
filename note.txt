@@ -1,5 +1,5 @@
 # set up base box
-vagrant box add develop box\trusty-server-cloudimg-amd64-vagrant-disk1.box
+vagrant box add develop box/trusty-server-cloudimg-amd64-vagrant-disk1.box
 
 # init with creating vagrantfile
 vagrant init
