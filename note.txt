@@ -36,4 +36,9 @@ http://www.jeffgeerling.com/blog/2016/developing-virtualbox-and-vagrant-on-windo
 http://perrymitchell.net/article/npm-symlinks-through-vagrant-windows/
 
 
+config.ssh.username = 'root'
+config.ssh.password = 'vagrant'
+config.ssh.insert_key = 'true'
+
+
 
